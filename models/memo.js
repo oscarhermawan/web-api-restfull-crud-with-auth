@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
 var memoSchema = new Schema({
+  memoFrom:{
+    type: Schema.Types.ObjectId,
+    ref:'User',
+    required:true
+  },
   title:{
     type:String,
     required:true

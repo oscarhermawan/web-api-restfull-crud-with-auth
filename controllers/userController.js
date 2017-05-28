@@ -5,17 +5,14 @@ const methods = {}
 
 //GET ALL USER
 methods.getAllUsers = function(req, res) {
-  User.find()
-   .populate('memo')
-   .exec(function(err,result){
+  User.find(function(err, result) {
     if(err){
-      console.log(err);
-    }
-    else{
+      res.send(err);
+    } else {
       res.send(result)
     }
   })
-}//GET ALL USER
+}//GET ALL MEMOS
 
 //GET ONE BY ID
 methods.getById = function(req,res){
@@ -33,8 +30,7 @@ methods.insertUser = function(req, res){
   var userInput = new User({
     username:req.body.username,
     password:passwordHash.generate(req.body.password),
-    name : req.body.name,
-    memo: []
+    name : req.body.name
   })
   userInput.save(function(err,result){
     if(err){
@@ -56,34 +52,34 @@ methods.deleteUser = function(req,res) {
   })
 }//DELETE USER
 
-methods.pushMemo = function(req,res){
-  User.findById(req.params.id, function(err, result){
-    if(!err){
-      result.memo.push(req.body.idmemo)
-      let updateUser = {
-        username:result.username,
-        password:result.password,
-        name:result.name,
-        memo:result.memo
-      }
-      User.findByIdAndUpdate(req.params.id, updateUser, {new:true}, function(error, data){
-        if(!error){
-          res.send(data)
-        } else {
-          res.send(error)
-        }
-      })
-    } else {
-      res.send(err)
-    }
-  })
-  // User.findById(req.params.id,
-  //   {$push: {"memo": req.body.memo}},
-  //       {safe: true, upsert: true, new : true},
-  //       function(err, model) {
-  //           console.log(err);
-  //       })
-}
+// methods.pushMemo = function(req,res){
+//   User.findById(req.params.id, function(err, result){
+//     if(!err){
+//       result.memo.push(req.body.idmemo)
+//       let updateUser = {
+//         username:result.username,
+//         password:result.password,
+//         name:result.name,
+//         memo:result.memo
+//       }
+//       User.findByIdAndUpdate(req.params.id, updateUser, {new:true}, function(error, data){
+//         if(!error){
+//           res.send(data)
+//         } else {
+//           res.send(error)
+//         }
+//       })
+//     } else {
+//       res.send(err)
+//     }
+//   })
+// User.findById(req.params.id,
+//   {$push: {"memo": req.body.memo}},
+//       {safe: true, upsert: true, new : true},
+//       function(err, model) {
+//           console.log(err);
+//       })
+// }
 
 //LOCAL LOGIN
 methods.signIn = function (username, password, next) {

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
+
 var userSchema = new Schema({
   username:{
     type:String,
@@ -15,10 +16,6 @@ var userSchema = new Schema({
     type:String,
     required:true
   },
-  memo:[{
-    type: Schema.Types.ObjectId,
-    ref:'Memo'
-  }],
   createdAt:{
     type:Date,
     default:Date.now
